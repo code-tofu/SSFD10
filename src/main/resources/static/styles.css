@@ -1,0 +1,8 @@
+.locked {
+  font-size: 30px;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}

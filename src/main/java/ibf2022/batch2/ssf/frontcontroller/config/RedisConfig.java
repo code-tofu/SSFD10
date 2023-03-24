@@ -46,7 +46,7 @@ public class RedisConfig {
         r.setKeySerializer(new StringRedisSerializer()); 
         r.setValueSerializer(r.getKeySerializer());
 
-        System.out.println("Connected to Redis" + redisHost + ":" + redisPort + "-Database" + Integer.toString(config.getDatabase()));
+        System.out.println(">>Connected to Redis" + redisHost + ":" + redisPort + "-Database" + Integer.toString(config.getDatabase()));
         return r;
     }
 }

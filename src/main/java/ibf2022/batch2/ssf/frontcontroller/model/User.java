@@ -18,7 +18,6 @@ public class User {
     @Size(min=2, message="Password must be more than 2 characters in length")
     private String password;
 
-    //TODO- NEEDS TO BE BIG DECIMAL?
     @NotBlank(message="Please key in the Captcha")
     private String captchaAnswer = "0.00";
 

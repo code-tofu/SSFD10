@@ -5,12 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ACCOUNT LOCKED</title>
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
     <p class="locked">
-      <span>Your Login</span>
-      <span data-th-text="${user.username}"></span>
-      <span>has been deactivated for 30mins</span>
+      <span>Your login</span>
+      <span class="error" data-th-text="${user.username}"></span>
+      <span
+        >has been deactivated for 30mins due to multiple login attempts</span
+      >
     </p>
   </body>
 </html>

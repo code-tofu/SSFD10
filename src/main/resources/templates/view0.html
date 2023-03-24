@@ -7,6 +7,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
     <h2>Please Login</h2>
@@ -53,12 +54,13 @@
           </td>
         </tr>
         <tr data-th-if="${#fields.hasErrors('captchaAnswer')}">
+          <p>Please key in Captcha Verification</p>
           <span>What is </span>
           <span data-th-each="string:${captcha}">
             <span data-th-text="${string}"></span>
           </span>
           <span>?</span>
-          <p>Round up any decimals to 2 decimal places</p>
+          <p>Round any decimals to nearest 2 decimal places</p>
           <input
             type="text"
             id="answer"

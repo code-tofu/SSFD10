@@ -1,6 +1,5 @@
 package ibf2022.batch2.ssf.frontcontroller.controllers;
 
-import java.lang.ProcessBuilder.Redirect;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
@@ -29,8 +28,6 @@ public class FrontController {
 
     @Autowired
     private CaptchaService captchaSvc;
-
-	// TODO: Task 2, Task 3, Task 4, Task 6
     
     //TASK1
     @GetMapping(path={"/","index.html"})
@@ -40,8 +37,7 @@ public class FrontController {
         return "view0";
     }
 
-
-    //TASK2
+    //TASK2/3/4
     @PostMapping(path={"/login"})
     public String view1(Model model, @Valid User user, BindingResult binding, HttpSession session){
         if(binding.hasErrors()){
@@ -80,6 +76,7 @@ public class FrontController {
                         new FieldError("user", "captchaAnswer", "Incorrect Captcha")
                         );  
                     model.addAttribute("user", user);
+                    captchaArr = CaptchaService.generateCaptcha(); //
                     session.setAttribute("captcha",captchaArr);
                     model.addAttribute("captcha", captchaArr);
                 }
