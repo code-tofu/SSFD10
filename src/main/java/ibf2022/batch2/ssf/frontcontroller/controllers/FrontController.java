@@ -122,19 +122,6 @@ public class FrontController {
             return "view0";
     }
 
-    //TASK 5
-    @GetMapping(path={"/protected/{path}"})
-    public String protectView(@PathVariable String path, HttpSession session){
-        SessAuth sessAuth = (SessAuth)session.getAttribute("sessAuth");
-        if(null == sessAuth){
-            return "redirect:/";
-        } else if (sessAuth.isAuthFlag()){
-            return "view1"; //USED AS EXAMPLE
-            // return "redirect:/protected/{path}";
-        }
-        return "redirect:/";
-    }
-
     //TASK 6
     @GetMapping(path={"/logout"})
     public String logout(HttpSession session){
