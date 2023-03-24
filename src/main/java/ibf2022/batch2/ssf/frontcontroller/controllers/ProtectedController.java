@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import ibf2022.batch2.ssf.frontcontroller.model.SessAuth;
-import ibf2022.batch2.ssf.frontcontroller.services.AuthenticationService;
-import ibf2022.batch2.ssf.frontcontroller.services.CaptchaService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
