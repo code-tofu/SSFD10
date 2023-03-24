@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--
+	TODO: Task 1, Task 2, Task 3
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <h2>Please Login</h2>
+
+    <form
+      action="#"
+      method="POST"
+      data-th-action="@{/login}"
+      data-th-object="${user}"
+    >
+      <table>
+        <tr>
+          <td>
+            <label for="username">Username:</label>
+          </td>
+          <td>
+            <input
+              type="text"
+              id="username"
+              size="30"
+              placeholder="Please type in your username"
+              data-th-field="*{username}"
+            />
+          </td>
+        </tr>
+        <tr>
+          <p
+            data-th-if="${#fields.hasErrors('username')}"
+            data-th-errors="*{username}"
+            th:errorclass="error"
+          ></p>
+        </tr>
+        <tr>
+          <td>
+            <label for="password">Password:</label>
+          </td>
+          <td>
+            <input
+              type="password"
+              id="password"
+              size="30"
+              placeholder="Please type in your password"
+              data-th-field="*{password}"
+            />
+          </td>
+        </tr>
+        <tr data-th-if="${#fields.hasErrors('password')}">
+          <p data-th-errors="*{password}" th:errorclass="error"></p>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <button type="submit">Login</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </body>
+</html>
