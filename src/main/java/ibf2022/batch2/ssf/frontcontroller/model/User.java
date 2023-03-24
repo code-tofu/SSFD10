@@ -1,7 +1,5 @@
 package ibf2022.batch2.ssf.frontcontroller.model;
 
-import java.math.BigDecimal;
-
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.validation.constraints.NotBlank;
