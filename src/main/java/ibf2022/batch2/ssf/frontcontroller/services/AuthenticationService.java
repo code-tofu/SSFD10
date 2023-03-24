@@ -6,6 +6,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -18,7 +19,7 @@ public class AuthenticationService {
     @Value("${chuklee.auth.API.url}")
     private String chukAuthURL;
 	//TASK2
-	public boolean authenticate(String username, String password) throws Exception {
+	public int authenticate(String username, String password) {
     // DO NOT CHANGE THE METHOD'S SIGNATURE
         RestTemplate restTemplate = new RestTemplate();
         JsonObject authJson = User.createJsonfromStr(username, password);
@@ -29,12 +30,18 @@ public class AuthenticationService {
         System.out.println(authJson.toString());
         try{
             ResponseEntity<String> resp = restTemplate.exchange(req, String.class);
-        } catch (HttpClientErrorException clientErr){
-            
+            System.out.println(resp.getBody());
+            return 1;
+        } catch (HttpStatusCodeException clientErr){
+            System.out.println(clientErr);
+            if(clientErr instanceof HttpClientErrorException.BadRequest){
+                return 400;
+            }else if(clientErr instanceof HttpClientErrorException.Unauthorized){
+                return 401;
+            }else {
+            return 0;
+            }
         }
-        
-        System.out.println(resp.getStatusCode());
-        System.out.println(resp.getBody());
 	}
 
 	// TODO: Task 3

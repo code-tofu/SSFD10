@@ -33,13 +33,6 @@
           </td>
         </tr>
         <tr>
-          <p
-            data-th-if="${#fields.hasErrors('username')}"
-            data-th-errors="*{username}"
-            th:errorclass="error"
-          ></p>
-        </tr>
-        <tr>
           <td>
             <label for="password">Password:</label>
           </td>
@@ -53,16 +46,37 @@
             />
           </td>
         </tr>
-        <tr data-th-if="${#fields.hasErrors('password')}">
-          <p data-th-errors="*{password}" th:errorclass="error"></p>
-        </tr>
         <tr>
           <td></td>
           <td>
             <button type="submit">Login</button>
           </td>
         </tr>
+        <tr data-th-if="${#fields.hasErrors('captchaAnswer')}">
+          <span>What is </span>
+          <span data-th-each="string:${captcha}">
+            <span data-th-text="${string}"></span>
+          </span>
+          <span>?</span>
+          <p>Round up any decimals to 2 decimal places</p>
+          <input
+            type="text"
+            id="answer"
+            size="30"
+            placeholder="Please type in your answer"
+            data-th-field="*{captchaAnswer}"
+          />
+        </tr>
       </table>
+      <div data-th-if="${#fields.hasErrors('username')}">
+        <p data-th-errors="*{username}" th:errorclass="error"></p>
+      </div>
+      <div data-th-if="${#fields.hasErrors('password')}">
+        <p data-th-errors="*{password}" th:errorclass="error"></p>
+      </div>
+      <div data-th-if="${#fields.hasErrors('captchaAnswer')}">
+        <p data-th-errors="*{captchaAnswer}" th:errorclass="error"></p>
+      </div>
     </form>
   </body>
 </html>

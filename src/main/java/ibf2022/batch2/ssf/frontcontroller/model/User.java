@@ -1,5 +1,7 @@
 package ibf2022.batch2.ssf.frontcontroller.model;
 
+import java.math.BigDecimal;
+
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.validation.constraints.NotNull;
@@ -12,11 +14,10 @@ public class User {
     private String username;
 
     @NotNull(message="Please key in your Password")
-    @Size(min=2, message="Username must be more than 2 characters in length")
+    @Size(min=2, message="Password must be more than 2 characters in length")
     private String password;
 
-    private Boolean authenticated = false;
-    private int failCount = 0;
+    private String captchaAnswer = "0";
 
 
     //GETTERS AND SETTERS
@@ -32,27 +33,20 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    public Boolean getAuthenticated() {
-        return authenticated;
+    public String getCaptchaAnswer() {
+        return captchaAnswer;
     }
-    public void setAuthenticated(Boolean authenticated) {
-        this.authenticated = authenticated;
+    public void setCaptchaAnswer(String captchaAnswer) {
+        this.captchaAnswer = captchaAnswer;
     }
-    public int getFailCount() {
-        return failCount;
-    }
-    public void setFailCount(int failCount) {
-        this.failCount = failCount;
-    }
+    
 
     //TOSTRING
     @Override
     public String toString() {
-        return "User [username=" + username + ", password=" + password + ", authenticated=" + authenticated
-                + ", failCount=" + failCount + "]";
+        return "User [username=" + username + ", password=" + password + "]" ;
     }
 
-    
     public static JsonObject createJsonfromObj(User user){
         JsonObject userJson = Json.createObjectBuilder()
             .add("username",user.getUsername())
@@ -68,7 +62,6 @@ public class User {
             .build();
         return userJson;
     }
-
 
 
 }
