@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -17,8 +18,9 @@ public class User {
     @Size(min=2, message="Password must be more than 2 characters in length")
     private String password;
 
-    private String captchaAnswer = "0";
-
+    //TODO- NEEDS TO BE BIG DECIMAL?
+    @NotBlank(message="Please key in the Captcha")
+    private String captchaAnswer = "0.00";
 
     //GETTERS AND SETTERS
     public String getUsername() {

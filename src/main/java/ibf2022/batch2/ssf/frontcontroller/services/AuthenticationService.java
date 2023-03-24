@@ -1,5 +1,6 @@
 package ibf2022.batch2.ssf.frontcontroller.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
@@ -9,8 +10,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
-
 import ibf2022.batch2.ssf.frontcontroller.model.User;
+import ibf2022.batch2.ssf.frontcontroller.respositories.AuthenticationRepository;
 import jakarta.json.JsonObject;
 
 @Service
@@ -18,7 +19,11 @@ public class AuthenticationService {
 
     @Value("${chuklee.auth.API.url}")
     private String chukAuthURL;
-	//TASK2
+
+    @Autowired
+    private AuthenticationRepository authRepo;
+
+    //TASK2
 	public int authenticate(String username, String password) {
     // DO NOT CHANGE THE METHOD'S SIGNATURE
         RestTemplate restTemplate = new RestTemplate();
@@ -48,12 +53,13 @@ public class AuthenticationService {
 	// DO NOT CHANGE THE METHOD'S SIGNATURE
 	// Write an implementation to disable a user account for 30 mins
 	public void disableUser(String username) {
+        authRepo.disableUserDB(username);
 	}
 
 	// TODO: Task 5
 	// DO NOT CHANGE THE METHOD'S SIGNATURE
 	// Write an implementation to check if a given user's login has been disabled
 	public boolean isLocked(String username) {
-		return false;
+		return authRepo.isLockedDB(username);
 	}
 }

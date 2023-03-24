@@ -1,19 +1,18 @@
 package ibf2022.batch2.ssf.frontcontroller.controllers;
 
+import java.lang.ProcessBuilder.Redirect;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import ibf2022.batch2.ssf.frontcontroller.model.SessAuth;
 import ibf2022.batch2.ssf.frontcontroller.model.User;
 import ibf2022.batch2.ssf.frontcontroller.services.AuthenticationService;
@@ -36,7 +35,7 @@ public class FrontController {
     //TASK1
     @GetMapping(path={"/","index.html"})
     public String view0(Model model, User user,HttpSession session){
-        session.invalidate();
+        // session.invalidate();
         model.addAttribute("user", new User());
         return "view0";
     }
@@ -47,7 +46,13 @@ public class FrontController {
     public String view1(Model model, @Valid User user, BindingResult binding, HttpSession session){
         if(binding.hasErrors()){
             model.addAttribute("user", user);
-        return "view0";
+            return "view0";
+        }
+
+        if(authSvc.isLocked(user.getUsername())){
+            System.out.println(">>USER IS LOCKED");
+            model.addAttribute("user", user);
+            return "view2";
         }
 
         SessAuth sessAuth = (SessAuth)session.getAttribute("sessAuth");
@@ -62,6 +67,9 @@ public class FrontController {
             System.out.println(">>CAPTCHA ACTIVE");
             String[] captchaArr = (String [])session.getAttribute("captcha");
             if(null != captchaArr){
+                System.out.println(Arrays.toString(captchaArr));
+                System.out.println(user.getCaptchaAnswer());
+                
                 if(CaptchaService.evaluateCaptcha(captchaArr,new BigDecimal(user.getCaptchaAnswer()))){
                     System.out.println(">>CAPTCHA PASSED");
                     sessAuth.setCaptchaFlag(false);
@@ -111,13 +119,31 @@ public class FrontController {
         } else {
             sessAuth.setFailCount(sessAuth.getFailCount()+1);
             session.setAttribute("sessAuth",sessAuth);
-            return "view0";
+            System.out.println(">>FAILCOUNT:" + Integer.toString(sessAuth.getFailCount()));
+            if(sessAuth.getFailCount()>2) authSvc.disableUser(user.getUsername());
         }
-
+            return "view0";
     }
 
+    //TASK 5
+    @GetMapping(path={"/protected/{path}"})
+    public String protectView(@PathVariable String path, HttpSession session){
+        SessAuth sessAuth = (SessAuth)session.getAttribute("sessAuth");
+        if(null == sessAuth){
+            return "redirect:/";
+        } else if (sessAuth.isAuthFlag()){
+            return "view1"; //USED AS EXAMPLE
+            // return "redirect:/protected/{path}";
+        }
+        return "redirect:/";
+    }
 
-
-
-
+    //TASK 6
+    @GetMapping(path={"/logout"})
+    public String logout(HttpSession session){
+        session.invalidate();
+        System.out.println(">>LOGGING OUT");
+        return "redirect:/";
+    }
+    
 }
